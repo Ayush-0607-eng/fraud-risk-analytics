@@ -1,0 +1,28 @@
+Model Comparison (evaluated against synthetic ground-truth labels)
+Rule-based only              flag_rate=  0.99%  precision=0.207  recall=0.598  f1=0.308
+Isolation Forest only        flag_rate=  1.00%  precision=0.286  recall=0.838  f1=0.427
+Blended risk score (High+Critical) flag_rate=  3.61%  precision=0.085  recall=0.902  f1=0.156
+
+Risk score cut points (fixed): Medium>=20, High>=40, Critical>=60
+
+Welch's t-test on transaction amount (fraud vs non-fraud):
+  fraud mean = 9862.84, non-fraud mean = 5625.12
+  t = 3.134, p = 0.001978 -> statistically significant difference at alpha=0.05
+
+Overall fraud rate: 0.342% (95% CI: 0.295% - 0.389%, n=59680)
+
+Chi-square test: risk_category vs channel
+  chi2 = 65.29, dof = 9, p = 0.000000 -> significant association at alpha=0.05
+
+Correlation of each feature with final risk_score:
+anomaly_score                 0.967638
+rule_score                    0.853255
+is_foreign_transaction        0.537869
+is_new_city_for_customer      0.525287
+amount_ratio_to_avg           0.446720
+amount_zscore                 0.438038
+is_odd_hour                   0.361673
+amount                        0.305935
+transaction_velocity_1h       0.298829
+is_new_device_for_customer    0.250286
+transaction_velocity_24h      0.189454

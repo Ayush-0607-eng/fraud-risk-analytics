@@ -1,0 +1,50 @@
+Power BI DAX Measures — Financial Fraud & Risk Intelligence Analytics
+======================================================================
+Add these to a _Measures table in Power BI Desktop. See
+powerbi/DASHBOARD_GUIDE.md for full context and page layout.
+
+Total Transactions = COUNTROWS(fact_transactions)
+
+Total Transaction Value = SUM(fact_transactions[amount])
+
+Avg Transaction Value = AVERAGE(fact_transactions[amount])
+
+Confirmed Fraud Transactions = SUM(fact_transactions[is_fraud_synthetic])
+
+Fraud Rate % =
+DIVIDE([Confirmed Fraud Transactions], [Total Transactions], 0)
+
+Fraud Exposure Value =
+CALCULATE(SUM(fact_transactions[amount]), fact_transactions[is_fraud_synthetic] = 1)
+
+Flagged Transactions = SUM(fact_transactions[risk_flagged])
+
+Flag Rate % = DIVIDE([Flagged Transactions], [Total Transactions], 0)
+
+Critical Alerts =
+CALCULATE([Total Transactions], fact_transactions[risk_category] = "Critical")
+
+High Alerts =
+CALCULATE([Total Transactions], fact_transactions[risk_category] = "High")
+
+Avg Risk Score = AVERAGE(fact_transactions[risk_score])
+
+True Positive Alerts =
+CALCULATE(
+    [Total Transactions],
+    fact_transactions[risk_flagged] = 1,
+    fact_transactions[is_fraud_synthetic] = 1
+)
+
+Alert Precision % = DIVIDE([True Positive Alerts], [Flagged Transactions], 0)
+
+Alert Recall % = DIVIDE([True Positive Alerts], [Confirmed Fraud Transactions], 0)
+
+MoM Transaction Value =
+CALCULATE(
+    [Total Transaction Value],
+    DATEADD(dim_date[date], -1, MONTH)
+)
+
+MoM Fraud Rate Change % =
+[Fraud Rate %] - CALCULATE([Fraud Rate %], DATEADD(dim_date[date], -1, MONTH))

@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+
+.env
+venv/
+.venv/
+
+.DS_Store
+
+data/processed/transactions_clean.csv
+data/processed/transactions_features.csv
+data/processed/transactions_rules.csv
+data/processed/transactions_anomaly.csv
+data/processed/risk_scores.csv
+
+data/fraud_analytics.db
